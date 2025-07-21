@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Data Processing Workflows - Multi-Cloud Platform</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --aws-orange: #FF9900;
+            --gcp-blue: #4285F4;
+            --azure-blue: #0078D4;
+            --hadoop-yellow: #FFCC00;
+            --spark-orange: #E25A1C;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 30px;
+            min-height: calc(100vh - 40px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .cloud-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cloud-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cloud-btn.aws { background: var(--aws-orange); color: white; }
+        .cloud-btn.gcp { background: var(--gcp-blue); color: white; }
+        .cloud-btn.azure { background: var(--azure-blue); color: white; }
+        .cloud-btn.active { transform: scale(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card canvas {
+            max-height: 300px !important;
+            width: 100% !important;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .processing-engine {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .engine-btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .engine-btn.hadoop { background: var(--hadoop-yellow); color: #333; }
+        .engine-btn.spark { background: var(--spark-orange); color: white; }
+        .engine-btn.active { transform: scale(1.05); }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress {
+            height: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #e9ecef;
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease;
+            border-radius: 12px;
+        }
+
+        .data-stream {
+            height: 300px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stream-active {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { border-color: #ccc; }
+            50% { border-color: #007bff; }
+            100% { border-color: #ccc; }
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .data-source-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .api-testing {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .log-output {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            height: 200px;
+            overflow-y: auto;
+            margin: 20px 0;
+        }
+
+        .cost-calculator {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .pipeline-step {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .pipeline-arrow {
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+
+        .real-time-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .real-time-indicator.inactive {
+            background: #dc3545;
+        }
+
+        .data-lineage {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            min-height: 360px;
+            max-height: 380px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .export-controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: #0056b3;
+        }
+
+        .performance-recommendations {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .streaming-data {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            background: #1a1a1a;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .data-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: stream 3s linear infinite;
+        }
+
+        @keyframes stream {
+            0% { left: -20px; }
+            100% { left: 100%; }
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 5px;
+                padding: 15px;
+                min-height: calc(100vh - 10px);
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .cloud-switcher {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .cloud-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                justify-content: center;
+            }
+            
+            .processing-engine {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .engine-btn {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 100px;
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+
+            .card canvas {
+                max-height: 250px !important;
+            }
+            
+            .pipeline-flow {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .pipeline-step {
+                margin: 0;
+                width: 100%;
+            }
+            
+            .pipeline-arrow {
+                transform: rotate(90deg);
+                font-size: 1.2rem;
+            }
+            
+            .real-time-indicator {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .export-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .export-btn {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .data-lineage {
+                min-height: 200px;
+            }
+
+            .log-output {
+                height: 150px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                margin: 2px;
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+            .header {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-value {
+                font-size: 1.5rem;
+            }
+
+            .card h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1><i class="fas fa-cloud"></i> Big Data Processing Workflows</h1>
+            <p>Multi-Cloud Platform for Hadoop & Spark Analytics</p>
+        </div>
+
+        <div class="real-time-indicator" id="realTimeIndicator">
+            <i class="fas fa-circle"></i> Real-time Active
+        </div>
+
+        <!-- Cloud Platform Switcher -->
+        <div class="cloud-switcher">
+            <button class="cloud-btn aws active" onclick="switchCloud('aws')">
+                <i class="fab fa-aws"></i> AWS
+            </button>
+            <button class="cloud-btn gcp" onclick="switchCloud('gcp')">
+                <i class="fab fa-google"></i> GCP
+            </button>
+            <button class="cloud-btn azure" onclick="switchCloud('azure')">
+                <i class="fab fa-microsoft"></i> Azure
+            </button>
+        </div>
+
+        <!-- Processing Engine Selector -->
+        <div class="processing-engine">
+            <button class="engine-btn hadoop active" onclick="switchEngine('hadoop')">
+                <i class="fas fa-server"></i> Hadoop MapReduce
+            </button>
+            <button class="engine-btn spark" onclick="switchEngine('spark')">
+                <i class="fas fa-bolt"></i> Apache Spark
+            </button>
+        </div>
+
+        <!-- Main Dashboard Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab" onclick="switchTab('processing')">Data Processing</button>
+            <button class="tab" onclick="switchTab('streaming')">Real-time Streaming</button>
+            <button class="tab" onclick="switchTab('analytics')">Analytics & Reports</button>
+            <button class="tab" onclick="switchTab('governance')">Data Governance</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="dashboard-grid">
+                <!-- Cloud Services Status -->
+                <div class="card">
+                    <h3><i class="fas fa-cloud-upload-alt"></i> Cloud Services Status</h3>
+                    <div id="cloudServices"></div>
+                </div>
+
+                <!-- Processing Metrics -->
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> Processing Metrics</h3>
+                    <canvas id="metricsChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Cost Calculator -->
+                <div class="cost-calculator">
+                    <h3><i class="fas fa-calculator"></i> Cost Analysis</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="hourlyCost">$24.50</div>
+                            <div class="metric-label">Hourly Cost</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="monthlyCost">$17,640</div>
+                            <div class="metric-label">Monthly Estimate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Pipeline Flow -->
+                <div class="card">
+                    <h3><i class="fas fa-project-diagram"></i> Pipeline Architecture</h3>
+                    <div class="pipeline-flow">
+                        <div class="pipeline-step">
+                            <i class="fas fa-database"></i>
+                            <div>Data Sources</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <i class="fas fa-cogs"></i>
+                            <div>Processing</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <i class="fas fa-chart-bar"></i>
+                            <div>Analytics</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <i class="fas fa-eye"></i>
+                            <div>Visualization</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Processing Tab -->
+        <div id="processing" class="tab-content">
+            <div class="dashboard-grid">
+                <!-- Job Execution -->
+                <div class="card">
+                    <h3><i class="fas fa-play"></i> Job Execution</h3>
+                    <div class="progress-container">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" id="jobProgress" style="width: 0%"></div>
+                        </div>
+                        <div class="mt-2">
+                            <span id="jobStatus">Ready to start</span>
+                            <span class="float-end" id="jobPercentage">0%</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-3" onclick="startJob()">
+                        <i class="fas fa-play"></i> Start Processing Job
+                    </button>
+                </div>
+
+                <!-- Data Sources Configuration -->
+                <div class="card">
+                    <h3><i class="fas fa-database"></i> Data Sources</h3>
+                    <div class="data-source-panel">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="ecommerce" checked>
+                            <label class="form-check-label" for="ecommerce">E-commerce Transactions (10k+ records)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="iot" checked>
+                            <label class="form-check-label" for="iot">IoT Sensor Data (Temperature, Humidity, Pressure)</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="logs">
+                            <label class="form-check-label" for="logs">Web Server Logs</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="financial">
+                            <label class="form-check-label" for="financial">Financial Market Data</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="social">
+                            <label class="form-check-label" for="social">Social Media Sentiment</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Log -->
+                <div class="card">
+                    <h3><i class="fas fa-terminal"></i> Processing Log</h3>
+                    <div class="log-output" id="processingLog">
+                        System ready. Select data sources and start processing...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Recommendations -->
+            <div class="performance-recommendations">
+                <h4><i class="fas fa-lightbulb"></i> Performance Optimization Recommendations</h4>
+                <ul id="recommendations">
+                    <li>Consider increasing cluster size for large datasets</li>
+                    <li>Enable data partitioning for better query performance</li>
+                    <li>Use columnar storage format (Parquet) for analytical workloads</li>
+                    <li>Implement data caching for frequently accessed datasets</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Real-time Streaming Tab -->
+        <div id="streaming" class="tab-content">
+            <div class="dashboard-grid">
+                <!-- Stream Monitoring -->
+                <div class="card">
+                    <h3><i class="fas fa-stream"></i> Real-time Data Stream</h3>
+                    <div class="data-stream" id="dataStream">
+                        <div class="streaming-data">
+                            <div class="data-point"></div>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-wifi fa-3x text-muted"></i>
+                            <p>Data streaming in real-time</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-3" onclick="toggleStreaming()">
+                        <i class="fas fa-play"></i> <span id="streamBtn">Start Streaming</span>
+                    </button>
+                </div>
+
+                <!-- Stream Analytics -->
+                <div class="card">
+                    <h3><i class="fas fa-chart-area"></i> Stream Analytics</h3>
+                    <canvas id="streamChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Real-time Metrics -->
+                <div class="card">
+                    <h3><i class="fas fa-tachometer-alt"></i> Real-time Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="throughput">0</div>
+                            <div class="metric-label">Events/sec</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="latency">0ms</div>
+                            <div class="metric-label">Latency</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalEvents">0</div>
+                            <div class="metric-label">Total Events</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics & Reports Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="dashboard-grid">
+                <!-- Data Visualization -->
+                <div class="card">
+                    <h3><i class="fas fa-chart-pie"></i> Data Distribution</h3>
+                    <canvas id="pieChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Time Series Analysis -->
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> Time Series Analysis</h3>
+                    <canvas id="timeSeriesChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Performance Comparison -->
+                <div class="card">
+                    <h3><i class="fas fa-balance-scale"></i> Platform Comparison</h3>
+                    <canvas id="comparisonChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Export Controls -->
+            <div class="export-controls">
+                <button class="export-btn" onclick="exportData('csv')">
+                    <i class="fas fa-file-csv"></i> Export CSV
+                </button>
+                <button class="export-btn" onclick="exportData('json')">
+                    <i class="fas fa-file-code"></i> Export JSON
+                </button>
+                <button class="export-btn" onclick="exportData('pdf')">
+                    <i class="fas fa-file-pdf"></i> Export PDF Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Governance Tab -->
+        <div id="governance" class="tab-content">
+            <div class="dashboard-grid">
+                <!-- Data Lineage -->
+                <div class="card">
+                    <h3><i class="fas fa-project-diagram"></i> Data Lineage</h3>
+                    <div class="data-lineage" id="dataLineage"></div>
+                </div>
+
+                <!-- API Testing -->
+                <div class="card">
+                    <h3><i class="fas fa-code"></i> API Endpoint Testing</h3>
+                    <div class="api-testing">
+                        <div class="mb-3">
+                            <label class="form-label">Endpoint URL:</label>
+                            <input type="text" class="form-control" id="apiUrl" value="/api/v1/data/process">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Method:</label>
+                            <select class="form-select" id="apiMethod">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="testAPI()">
+                            <i class="fas fa-paper-plane"></i> Test API
+                        </button>
+                        <div id="apiResponse" class="mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Data Quality Metrics -->
+                <div class="card">
+                    <h3><i class="fas fa-shield-alt"></i> Data Quality</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value text-success">99.2%</div>
+                            <div class="metric-label">Data Accuracy</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value text-warning">96.8%</div>
+                            <div class="metric-label">Completeness</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value text-info">98.5%</div>
+                            <div class="metric-label">Consistency</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentCloud = 'aws';
+        let currentEngine = 'hadoop';
+        let isStreaming = false;
+        let streamInterval;
+        let jobProgress = 0;
+        let totalEvents = 0;
+
+        // Sample datasets
+        const sampleData = {
+            ecommerce: generateEcommerceData(10000),
+            iot: generateIoTData(5000),
+            logs: generateLogData(1000),
+            financial: generateFinancialData(2000),
+            social: generateSocialData(3000)
+        };
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                initializeCharts();
+                updateCloudServices();
+                initializeDataLineage();
+                initializeHadoopSparkClusters();
+                initializeRealTimeDataStream();
+                updateCostAnalysis();
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        });
+
+        // Sample data generators
+        function generateEcommerceData(count) {
+            const data = [];
+            const products = ['Laptop', 'Phone', 'Tablet', 'Watch', 'Headphones', 'Camera', 'Speaker', 'Monitor'];
+            for (let i = 0; i < count; i++) {
+                data.push({
+                    id: i + 1,
+                    product: products[Math.floor(Math.random() * products.length)],
+                    amount: Math.floor(Math.random() * 1000) + 50,
+                    timestamp: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000),
+                    category: Math.random() > 0.5 ? 'Electronics' : 'Accessories'
+                });
+            }
+            return data;
+        }
+
+        function generateIoTData(count) {
+            const data = [];
+            for (let i = 0; i < count; i++) {
+                data.push({
+                    deviceId: 'sensor_' + (Math.floor(i / 100) + 1),
+                    temperature: Math.random() * 40 + 10,
+                    humidity: Math.random() * 80 + 20,
+                    pressure: Math.random() * 50 + 950,
+                    timestamp: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000)
+                });
+            }
+            return data;
+        }
+
+        function generateLogData(count) {
+            const data = [];
+            const ips = ['192.168.1.1', '10.0.0.1', '172.16.0.1', '203.0.113.1'];
+            const endpoints = ['/api/users', '/api/orders', '/api/products', '/login', '/dashboard'];
+            for (let i = 0; i < count; i++) {
+                data.push({
+                    ip: ips[Math.floor(Math.random() * ips.length)],
+                    endpoint: endpoints[Math.floor(Math.random() * endpoints.length)],
+                    statusCode: Math.random() > 0.1 ? 200 : (Math.random() > 0.5 ? 404 : 500),
+                    responseTime: Math.floor(Math.random() * 1000) + 50,
+                    timestamp: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000)
+                });
+            }
+            return data;
+        }
+
+        function generateFinancialData(count) {
+            const data = [];
+            const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX'];
+            for (let i = 0; i < count; i++) {
+                const basePrice = Math.random() * 300 + 50;
+                data.push({
+                    symbol: symbols[Math.floor(Math.random() * symbols.length)],
+                    price: basePrice,
+                    volume: Math.floor(Math.random() * 1000000),
+                    change: (Math.random() - 0.5) * 20,
+                    timestamp: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000)
+                });
+            }
+            return data;
+        }
+
+        function generateSocialData(count) {
+            const data = [];
+            const sentiments = ['positive', 'negative', 'neutral'];
+            const platforms = ['Twitter', 'Facebook', 'Instagram', 'LinkedIn'];
+            for (let i = 0; i < count; i++) {
+                data.push({
+                    platform: platforms[Math.floor(Math.random() * platforms.length)],
+                    sentiment: sentiments[Math.floor(Math.random() * sentiments.length)],
+                    score: Math.random(),
+                    mentions: Math.floor(Math.random() * 1000),
+                    timestamp: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000)
+                });
+            }
+            return data;
+        }
+
+        // Cloud platform switcher
+        function switchCloud(cloud) {
+            currentCloud = cloud;
+            document.querySelectorAll('.cloud-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.cloud-btn.${cloud}`).classList.add('active');
+            updateCloudServices();
+            updateCostAnalysis();
+            if (window.clusterStatus) {
+                updateClusterInfo();
+            }
+        }
+
+        // Processing engine switcher
+        function switchEngine(engine) {
+            currentEngine = engine;
+            document.querySelectorAll('.engine-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.engine-btn.${engine}`).classList.add('active');
+            updateRecommendations();
+        }
+
+        // Tab switcher
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Update cloud services status
+        function updateCloudServices() {
+            const services = {
+                aws: ['EMR', 'S3', 'Redshift', 'Kinesis', 'Lambda'],
+                gcp: ['Dataproc', 'BigQuery', 'Cloud Storage', 'Pub/Sub', 'Cloud Functions'],
+                azure: ['HDInsight', 'Data Lake', 'Synapse Analytics', 'Event Hubs', 'Azure Functions']
+            };
+
+            const container = document.getElementById('cloudServices');
+            container.innerHTML = '';
+
+            services[currentCloud].forEach(service => {
+                const status = Math.random() > 0.1 ? 'success' : 'warning';
+                const icon = status === 'success' ? 'check-circle' : 'exclamation-triangle';
+                
+                container.innerHTML += `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>${service}</span>
+                        <span class="text-${status}">
+                            <i class="fas fa-${icon}"></i>
+                        </span>
+                    </div>
+                `;
+            });
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Metrics Chart
+            const metricsCtx = document.getElementById('metricsChart').getContext('2d');
+            new Chart(metricsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1h', '2h', '3h', '4h', '5h', '6h'],
+                    datasets: [{
+                        label: 'CPU Usage (%)',
+                        data: [65, 72, 58, 83, 69, 75],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Memory Usage (%)',
+                        data: [45, 52, 48, 63, 59, 65],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Stream Chart
+            const streamCtx = document.getElementById('streamChart').getContext('2d');
+            window.streamChart = new Chart(streamCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Events per second',
+                        data: [],
+                        borderColor: '#e25a1c',
+                        backgroundColor: 'rgba(226, 90, 28, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['E-commerce', 'IoT', 'Logs', 'Financial', 'Social'],
+                    datasets: [{
+                        data: [35, 25, 15, 15, 10],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0',
+                            '#9966FF'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Time Series Chart
+            const timeSeriesCtx = document.getElementById('timeSeriesChart');
+            if (timeSeriesCtx) {
+                const timeData = [];
+                const now = new Date();
+                for (let i = 23; i >= 0; i--) {
+                    timeData.push({
+                        x: new Date(now - i * 60 * 60 * 1000),
+                        y: Math.floor(Math.random() * 1000) + 500
+                    });
+                }
+
+                window.timeSeriesChart = new Chart(timeSeriesCtx, {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: 'Processing Volume (Events/Hour)',
+                            data: timeData,
+                            borderColor: '#6f42c1',
+                            backgroundColor: 'rgba(111, 66, 193, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        aspectRatio: 2.5,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            title: {
+                                display: true,
+                                text: '24-Hour Processing Volume Trend'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: 'hour',
+                                    displayFormats: {
+                                        hour: 'HH:mm'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Events per Hour'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Platform Comparison Chart with Real-time Data
+            const comparisonCtx = document.getElementById('comparisonChart');
+            if (comparisonCtx) {
+                window.comparisonChart = new Chart(comparisonCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Processing Speed', 'Cost Efficiency', 'Scalability', 'Reliability', 'Data Security', 'Global Availability'],
+                        datasets: [{
+                            label: 'AWS',
+                            data: [85, 78, 92, 88, 95, 98],
+                            backgroundColor: 'rgba(255, 153, 0, 0.2)',
+                            borderColor: '#FF9900',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#FF9900'
+                        }, {
+                            label: 'GCP',
+                            data: [82, 85, 88, 85, 92, 95],
+                            backgroundColor: 'rgba(66, 133, 244, 0.2)',
+                            borderColor: '#4285F4',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#4285F4'
+                        }, {
+                            label: 'Azure',
+                            data: [80, 82, 85, 90, 88, 96],
+                            backgroundColor: 'rgba(0, 120, 212, 0.2)',
+                            borderColor: '#0078D4',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#0078D4'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        aspectRatio: 1.5,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Multi-Cloud Platform Performance Comparison'
+                            }
+                        },
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 20
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Update comparison data every 30 seconds with slight variations
+                setInterval(() => {
+                    window.comparisonChart.data.datasets.forEach((dataset, index) => {
+                        dataset.data = dataset.data.map(value => {
+                            const variation = (Math.random() - 0.5) * 10;
+                            return Math.max(60, Math.min(100, value + variation));
+                        });
+                    });
+                    window.comparisonChart.update('none');
+                }, 30000);
+            }
+        }
+
+        // Start processing job
+        function startJob() {
+            if (jobProgress > 0 && jobProgress < 100) return;
+            
+            jobProgress = 0;
+            document.getElementById('jobStatus').textContent = 'Initializing...';
+            
+            const progressBar = document.getElementById('jobProgress');
+            const statusElement = document.getElementById('jobStatus');
+            const percentageElement = document.getElementById('jobPercentage');
+            const logElement = document.getElementById('processingLog');
+            
+            // Cloud-specific processing stages
+            const stages = currentCloud === 'aws' ? [
+                { name: 'Ingesting data via Kinesis Streams', duration: 1000 },
+                { name: 'Storing raw data in S3 buckets', duration: 800 },
+                { name: 'Lambda triggers EMR cluster start', duration: 1200 },
+                { name: 'Spark ETL processing on EMR', duration: 3000 },
+                { name: 'Loading processed data to Redshift', duration: 1500 },
+                { name: 'Running Athena queries for analytics', duration: 1000 },
+                { name: 'Generating QuickSight reports', duration: 800 }
+            ] : currentCloud === 'gcp' ? [
+                { name: 'Streaming data via Pub/Sub', duration: 1000 },
+                { name: 'Storing in Cloud Storage buckets', duration: 800 },
+                { name: 'Triggering Dataproc cluster', duration: 1200 },
+                { name: 'Spark processing on Dataproc', duration: 3000 },
+                { name: 'Loading data to BigQuery', duration: 1500 },
+                { name: 'Running BigQuery analytics', duration: 1000 },
+                { name: 'Creating Data Studio reports', duration: 800 }
+            ] : [
+                { name: 'Event Hubs data ingestion', duration: 1000 },
+                { name: 'Storing in Data Lake Storage', duration: 800 },
+                { name: 'Starting HDInsight cluster', duration: 1200 },
+                { name: 'Spark processing on HDInsight', duration: 3000 },
+                { name: 'Loading to Synapse Analytics', duration: 1500 },
+                { name: 'Running Synapse queries', duration: 1000 },
+                { name: 'Power BI report generation', duration: 800 }
+            ];
+            
+            let currentStage = 0;
+            
+            function updateProgress() {
+                if (currentStage < stages.length) {
+                    statusElement.textContent = stages[currentStage].name;
+                    logElement.innerHTML += `\n[${new Date().toLocaleTimeString()}] ${stages[currentStage].name}...`;
+                    logElement.scrollTop = logElement.scrollHeight;
+                    
+                    const stageProgress = 100 / stages.length;
+                    const targetProgress = (currentStage + 1) * stageProgress;
+                    
+                    const progressInterval = setInterval(() => {
+                        jobProgress += 1;
+                        progressBar.style.width = jobProgress + '%';
+                        percentageElement.textContent = Math.round(jobProgress) + '%';
+                        
+                        if (jobProgress >= targetProgress) {
+                            clearInterval(progressInterval);
+                            currentStage++;
+                            if (currentStage < stages.length) {
+                                setTimeout(updateProgress, 500);
+                            } else {
+                                statusElement.textContent = 'Job completed successfully';
+                                logElement.innerHTML += `\n[${new Date().toLocaleTimeString()}] Job completed successfully!`;
+                                logElement.scrollTop = logElement.scrollHeight;
+                            }
+                        }
+                    }, stages[currentStage].duration / (stageProgress));
+                }
+            }
+            
+            updateProgress();
+        }
+
+        // Toggle streaming
+        function toggleStreaming() {
+            isStreaming = !isStreaming;
+            const btn = document.getElementById('streamBtn');
+            const indicator = document.getElementById('realTimeIndicator');
+            const streamElement = document.getElementById('dataStream');
+            
+            if (isStreaming) {
+                btn.innerHTML = '<i class="fas fa-stop"></i> Stop Streaming';
+                indicator.classList.remove('inactive');
+                streamElement.classList.add('stream-active');
+                
+                streamInterval = setInterval(() => {
+                    updateStreamMetrics();
+                    updateStreamChart();
+                }, 1000);
+            } else {
+                btn.innerHTML = '<i class="fas fa-play"></i> Start Streaming';
+                indicator.classList.add('inactive');
+                streamElement.classList.remove('stream-active');
+                clearInterval(streamInterval);
+            }
+        }
+
+        // Update stream metrics
+        function updateStreamMetrics() {
+            const throughput = Math.floor(Math.random() * 1000) + 500;
+            const latency = Math.floor(Math.random() * 50) + 10;
+            totalEvents += throughput;
+            
+            document.getElementById('throughput').textContent = throughput.toLocaleString();
+            document.getElementById('latency').textContent = latency + 'ms';
+            document.getElementById('totalEvents').textContent = totalEvents.toLocaleString();
+        }
+
+        // Update stream chart
+        function updateStreamChart() {
+            const chart = window.streamChart;
+            const now = new Date();
+            const value = Math.floor(Math.random() * 1000) + 500;
+            
+            chart.data.labels.push(now.toLocaleTimeString());
+            chart.data.datasets[0].data.push(value);
+            
+            if (chart.data.labels.length > 20) {
+                chart.data.labels.shift();
+                chart.data.datasets[0].data.shift();
+            }
+            
+            chart.update('none');
+        }
+
+        // Update cost analysis
+        function updateCostAnalysis() {
+            const costs = {
+                aws: { hourly: 24.50, monthly: 17640 },
+                gcp: { hourly: 22.80, monthly: 16416 },
+                azure: { hourly: 26.20, monthly: 18864 }
+            };
+            
+            document.getElementById('hourlyCost').textContent = '$' + costs[currentCloud].hourly;
+            document.getElementById('monthlyCost').textContent = '$' + costs[currentCloud].monthly.toLocaleString();
+        }
+
+        // Update recommendations
+        function updateRecommendations() {
+            const recommendations = {
+                hadoop: [
+                    'Consider increasing cluster size for large datasets',
+                    'Enable data partitioning for better query performance',
+                    'Use sequence files for better compression',
+                    'Implement speculative execution for faster processing'
+                ],
+                spark: [
+                    'Optimize memory allocation with spark.executor.memory',
+                    'Use DataFrame API for better optimization',
+                    'Enable adaptive query execution',
+                    'Consider using Spark streaming for real-time processing'
+                ]
+            };
+            
+            const list = document.getElementById('recommendations');
+            list.innerHTML = '';
+            recommendations[currentEngine].forEach(rec => {
+                list.innerHTML += `<li>${rec}</li>`;
+            });
+        }
+
+        // Export data
+        function exportData(format) {
+            const data = {
+                timestamp: new Date().toISOString(),
+                platform: currentCloud,
+                engine: currentEngine,
+                metrics: {
+                    totalEvents: totalEvents,
+                    processingStatus: document.getElementById('jobStatus').textContent,
+                    isStreaming: isStreaming
+                }
+            };
+            
+            let exportContent = '';
+            let filename = '';
+            let mimeType = '';
+            
+            switch (format) {
+                case 'csv':
+                    exportContent = 'Timestamp,Platform,Engine,Total Events,Status,Streaming\n';
+                    exportContent += `${data.timestamp},${data.platform},${data.engine},${data.metrics.totalEvents},${data.metrics.processingStatus},${data.metrics.isStreaming}`;
+                    filename = 'bigdata_report.csv';
+                    mimeType = 'text/csv';
+                    break;
+                case 'json':
+                    exportContent = JSON.stringify(data, null, 2);
+                    filename = 'bigdata_report.json';
+                    mimeType = 'application/json';
+                    break;
+                case 'pdf':
+                    alert('PDF export functionality would require additional libraries. In a real implementation, you would use libraries like jsPDF.');
+                    return;
+            }
+            
+            const blob = new Blob([exportContent], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Test API
+        function testAPI() {
+            const url = document.getElementById('apiUrl').value;
+            const method = document.getElementById('apiMethod').value;
+            const responseDiv = document.getElementById('apiResponse');
+            
+            responseDiv.innerHTML = '<div class="alert alert-info">Testing API endpoint...</div>';
+            
+            // Simulate API response
+            setTimeout(() => {
+                const mockResponse = {
+                    status: 200,
+                    data: {
+                        message: 'API endpoint is working correctly',
+                        timestamp: new Date().toISOString(),
+                        method: method,
+                        endpoint: url
+                    }
+                };
+                
+                responseDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <h6>Response (${mockResponse.status}):</h6>
+                        <pre>${JSON.stringify(mockResponse.data, null, 2)}</pre>
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        // Initialize data lineage visualization
+        function initializeDataLineage() {
+            const container = document.getElementById('dataLineage');
+            if (!container) return;
+            
+            // Clear any existing content
+            container.innerHTML = '';
+            
+            // Get container dimensions
+            const containerWidth = container.offsetWidth || 500;
+            const width = Math.max(containerWidth - 20, 700);
+            const height = 320;
+            
+            // Create SVG for data lineage
+            const svg = d3.select(container)
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet')
+                .style('border', '1px solid #ddd')
+                .style('border-radius', '5px');
+            
+            // AWS-specific data lineage with actual services
+            const nodes = [
+                { id: 'sources', label: 'Data Sources', x: 30, y: 50, type: 'source' },
+                { id: 'kinesis', label: 'AWS Kinesis', x: 30, y: 120, type: 'stream' },
+                { id: 's3_raw', label: 'S3 Raw Data', x: 180, y: 30, type: 'storage' },
+                { id: 'emr', label: 'EMR Cluster', x: 180, y: 90, type: 'process' },
+                { id: 'lambda', label: 'Lambda Functions', x: 180, y: 150, type: 'process' },
+                { id: 's3_processed', label: 'S3 Processed', x: 350, y: 30, type: 'storage' },
+                { id: 'redshift', label: 'Redshift DW', x: 350, y: 90, type: 'storage' },
+                { id: 'athena', label: 'Athena Query', x: 350, y: 150, type: 'process' },
+                { id: 'quicksight', label: 'QuickSight', x: 520, y: 60, type: 'output' },
+                { id: 'api_gateway', label: 'API Gateway', x: 520, y: 120, type: 'output' },
+                { id: 'sagemaker', label: 'SageMaker ML', x: 520, y: 180, type: 'output' }
+            ];
+            
+            const links = [
+                { source: 'sources', target: 'kinesis' },
+                { source: 'sources', target: 's3_raw' },
+                { source: 'kinesis', target: 'lambda' },
+                { source: 's3_raw', target: 'emr' },
+                { source: 'lambda', target: 's3_processed' },
+                { source: 'emr', target: 's3_processed' },
+                { source: 'emr', target: 'redshift' },
+                { source: 's3_processed', target: 'athena' },
+                { source: 'redshift', target: 'quicksight' },
+                { source: 'athena', target: 'api_gateway' },
+                { source: 's3_processed', target: 'sagemaker' }
+            ];
+            
+            // Draw links
+            svg.selectAll('.link')
+                .data(links)
+                .enter()
+                .append('line')
+                .attr('class', 'link')
+                .attr('x1', d => nodes.find(n => n.id === d.source).x + 60)
+                .attr('y1', d => nodes.find(n => n.id === d.source).y + 15)
+                .attr('x2', d => nodes.find(n => n.id === d.target).x)
+                .attr('y2', d => nodes.find(n => n.id === d.target).y + 15)
+                .attr('stroke', '#999')
+                .attr('stroke-width', 2)
+                .attr('marker-end', 'url(#arrowhead)');
+            
+            // Add arrow marker
+            svg.append('defs')
+                .append('marker')
+                .attr('id', 'arrowhead')
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 10)
+                .attr('refY', 0)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M0,-5L10,0L0,5')
+                .attr('fill', '#999');
+            
+            // Draw nodes
+            const nodeGroups = svg.selectAll('.node')
+                .data(nodes)
+                .enter()
+                .append('g')
+                .attr('class', 'node')
+                .attr('transform', d => `translate(${d.x}, ${d.y})`);
+            
+            nodeGroups.append('rect')
+                .attr('width', 120)
+                .attr('height', 30)
+                .attr('rx', 5)
+                .attr('fill', d => {
+                    switch (d.type) {
+                        case 'source': return '#28a745';
+                        case 'process': return '#007bff';
+                        case 'storage': return '#ffc107';
+                        case 'output': return '#dc3545';
+                        default: return '#6c757d';
+                    }
+                })
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2);
+            
+            nodeGroups.append('text')
+                .attr('x', 60)
+                .attr('y', 20)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'white')
+                .attr('font-size', '12px')
+                .attr('font-weight', 'bold')
+                .text(d => d.label);
+        }
+
+        // Initialize Hadoop/Spark Clusters with real integration simulation
+        function initializeHadoopSparkClusters() {
+            // Simulate cluster status for different clouds
+            const clusterStatus = {
+                aws: {
+                    hadoop: { status: 'running', nodes: 5, version: '3.3.4' },
+                    spark: { status: 'running', nodes: 8, version: '3.4.1' }
+                },
+                gcp: {
+                    hadoop: { status: 'running', nodes: 4, version: '3.3.4' },
+                    spark: { status: 'running', nodes: 6, version: '3.4.1' }
+                },
+                azure: {
+                    hadoop: { status: 'running', nodes: 6, version: '3.3.4' },
+                    spark: { status: 'running', nodes: 10, version: '3.4.1' }
+                }
+            };
+
+            window.clusterStatus = clusterStatus;
+            updateClusterInfo();
+        }
+
+        function updateClusterInfo() {
+            const status = window.clusterStatus[currentCloud];
+            const logElement = document.getElementById('processingLog');
+            
+            if (logElement) {
+                const awsServices = currentCloud === 'aws' ? `
+[${new Date().toLocaleTimeString()}] EMR Cluster: ${status.spark.nodes} instances (m5.xlarge)
+[${new Date().toLocaleTimeString()}] S3 Buckets: raw-data-bucket, processed-data-bucket
+[${new Date().toLocaleTimeString()}] Redshift Cluster: 4 nodes (dc2.large) - ACTIVE
+[${new Date().toLocaleTimeString()}] Kinesis Streams: 3 shards processing 1000 records/sec
+[${new Date().toLocaleTimeString()}] Lambda Functions: 5 active (data-processor, etl-trigger, ml-inference)` : '';
+
+                const gcpServices = currentCloud === 'gcp' ? `
+[${new Date().toLocaleTimeString()}] Dataproc Cluster: ${status.spark.nodes} instances (n1-standard-4)
+[${new Date().toLocaleTimeString()}] BigQuery Dataset: ecommerce_analytics (500GB processed)
+[${new Date().toLocaleTimeString()}] Cloud Storage: gs://raw-data, gs://processed-data
+[${new Date().toLocaleTimeString()}] Pub/Sub Topics: data-ingestion, ml-predictions
+[${new Date().toLocaleTimeString()}] Cloud Functions: data-validator, stream-processor` : '';
+
+                const azureServices = currentCloud === 'azure' ? `
+[${new Date().toLocaleTimeString()}] HDInsight Cluster: ${status.spark.nodes} instances (Standard_D4_v3)
+[${new Date().toLocaleTimeString()}] Synapse Analytics: SQL Pool (DW500c) - RUNNING
+[${new Date().toLocaleTimeString()}] Data Lake Storage: adls://rawdata, adls://processed
+[${new Date().toLocaleTimeString()}] Event Hubs: processing 2000 events/sec
+[${new Date().toLocaleTimeString()}] Azure Functions: data-transformation, ml-scoring` : '';
+
+                logElement.innerHTML = `[${new Date().toLocaleTimeString()}] Connected to ${currentCloud.toUpperCase()} Big Data Platform
+[${new Date().toLocaleTimeString()}] Hadoop cluster: ${status.hadoop.nodes} nodes (v${status.hadoop.version})
+[${new Date().toLocaleTimeString()}] Spark cluster: ${status.spark.nodes} nodes (v${status.spark.version})
+[${new Date().toLocaleTimeString()}] Cluster status: ${status.hadoop.status}
+${awsServices}${gcpServices}${azureServices}
+[${new Date().toLocaleTimeString()}] Ready for big data processing...`;
+            }
+        }
+
+        // Initialize real-time data streaming
+        function initializeRealTimeDataStream() {
+            // Create sample time series data
+            window.timeSeriesData = [];
+            const now = new Date();
+            for (let i = 24; i >= 0; i--) {
+                window.timeSeriesData.push({
+                    time: new Date(now - i * 60 * 60 * 1000),
+                    value: Math.floor(Math.random() * 1000) + 500,
+                    aws: Math.floor(Math.random() * 300) + 200,
+                    gcp: Math.floor(Math.random() * 280) + 180,
+                    azure: Math.floor(Math.random() * 320) + 220
+                });
+            }
+            
+            // Update time series every minute if streaming is active
+            setInterval(() => {
+                if (isStreaming) {
+                    const newPoint = {
+                        time: new Date(),
+                        value: Math.floor(Math.random() * 1000) + 500,
+                        aws: Math.floor(Math.random() * 300) + 200,
+                        gcp: Math.floor(Math.random() * 280) + 180,
+                        azure: Math.floor(Math.random() * 320) + 220
+                    };
+                    window.timeSeriesData.push(newPoint);
+                    if (window.timeSeriesData.length > 24) {
+                        window.timeSeriesData.shift();
+                    }
+                    updateTimeSeriesChart();
+                }
+            }, 60000);
+        }
+
+        function updateTimeSeriesChart() {
+            if (window.timeSeriesChart) {
+                window.timeSeriesChart.data.datasets[0].data = window.timeSeriesData.map(d => ({
+                    x: d.time,
+                    y: d.value
+                }));
+                window.timeSeriesChart.update('none');
+            }
+        }
+
+        // Auto-update metrics periodically
+        setInterval(() => {
+            if (isStreaming) {
+                updateStreamMetrics();
+            }
+        }, 2000);
+
+        // Initialize cost analysis
+        updateCostAnalysis();
+    </script>
+</body>
+</html>
