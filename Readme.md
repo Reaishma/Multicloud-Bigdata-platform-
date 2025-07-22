@@ -2,6 +2,11 @@
 
 A comprehensive Angular frontend and Laravel backend application for managing big data workflows across AWS, GCP, and Azure cloud platforms with Hadoop and Spark processing engines.
 
+## 🚀 Live Demo 
+
+[View live demo](https://reaishma.github.io/Multicloud-Bigdata-platform-/)
+
+
 ## 🚀 Features
 
 ### Frontend (Angular)
