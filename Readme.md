@@ -45,6 +45,48 @@ I've also created a complete **Ruby on Rails backend** as an alternative to the 
 - **Mock Data Generators** for testing
 - **Production-Ready Configuration**
 
+## 🏗️  Ruby on rails Architecture
+
+### Controllers
+
+- **ApplicationController**: Base controller with CORS handling
+- **CloudsController**: Multi-cloud platform management
+- **ProcessingController**: Data processing job management
+- **DataController**: Data operations and management
+- **StreamingController**: Real-time streaming operations
+- **AnalyticsController**: Analytics and reporting
+- **GovernanceController**: Data governance and compliance
+
+### Background Jobs
+- **ProcessingJob**: Handles long-running data processing tasks
+- **StreamingJob**: Manages real-time data streaming
+
+### Key Features
+- **CORS Support**: Configured for Angular frontend
+- **Redis Caching**: For performance and session management
+- **Sidekiq Integration**: Asynchronous job processing
+- **Error Handling**: Comprehensive error responses
+- **Data Generation**: Mock data generators for testing
+
+## 🔧 Configuration
+
+### Environment Variables
+Key environment variables in `.env`:
+
+```bash
+DATABASE_URL=postgresql://username:password@localhost/bigdata_platform_development
+REDIS_URL=redis://localhost:6379/0
+RAILS_ENV=development
+PORT=3000
+SECRET_KEY_BASE=your_secret_key_base
+```
+
+### CORS Configuration
+CORS is configured in `config/initializers/cors.rb` to allow requests from the Angular frontend running on `localhost:4200`.
+
+### Database Configuration
+PostgreSQL is configured in `config/database.yml` with separate configurations for development, test, and production environments.
+
 
 ## 🏗️ Architecture
 
@@ -263,6 +305,11 @@ AWS_SECRET_ACCESS_KEY=your_aws_secret
 GOOGLE_CLOUD_PROJECT_ID=your_gcp_project
 AZURE_CLIENT_ID=your_azure_client
 ```
+### CORS Configuration
+CORS is configured in `config/initializers/cors.rb` to allow requests from the Angular frontend running on `localhost:4200`.
+
+### Database Configuration
+PostgreSQL is configured in `config/database.yml` with separate configurations for development, test, and production environments.
 
 ### API Endpoints
 
@@ -298,6 +345,7 @@ AZURE_CLIENT_ID=your_azure_client
 - `GET /api/compliance-status` - Get compliance status
 - `POST /api/test-endpoint` - Test API endpoint
 
+## Refer Rails backend.md for complete details (https://github.com/Reaishma/Multicloud-Bigdata-platform-/blob/main/Readme_Rails.md)
 
 
 
@@ -346,6 +394,25 @@ The application includes comprehensive sample data generators for:
 - Financial market data
 - Social media sentiment data
 
+## 🧪 Testing
+
+Run the test suite:
+```bash
+bundle exec rspec
+```
+
+## 📊 Monitoring
+
+### Health Check
+- `GET /health` - API health status
+
+### Logs
+Logs are configured in `config/environments/` for each environment.
+
+### Background Jobs
+Monitor Sidekiq jobs at: `http://localhost:4567` (if Sidekiq web UI is enabled)
+
+
 ## 🔒 Security Features
 
 - CORS middleware for secure cross-origin requests
@@ -353,6 +420,10 @@ The application includes comprehensive sample data generators for:
 - Access control monitoring
 - Compliance tracking (GDPR, data retention)
 - API endpoint testing functionality
+- CORS properly configured
+- Environment variables for sensitive data
+- Input validation and sanitization
+- Secure headers configuration
 
 ## 🚀 Deployment
 
@@ -368,6 +439,38 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
+### Production Setup
+1. Set production environment variables
+2. Run database migrations: `rails db:migrate RAILS_ENV=production`
+3. Precompile assets if needed
+4. Start with production server (Puma, Unicorn, etc.)
+
+### Docker Support
+The application is ready for containerization with Docker.
+
+## 📈 Performance
+
+- Redis caching for improved response times
+- Background job processing with Sidekiq
+- Database query optimization
+- Efficient data serialization
+
+## 🤝 Integration
+
+This Rails API is designed to work seamlessly with the Angular frontend. The API provides all necessary endpoints for the dashboard functionality including:
+
+- Real-time metrics and monitoring
+- Multi-cloud platform switching
+- Data processing job management
+- Streaming data operations
+- Analytics and reporting
+- Data governance features
+
+## 📝 API Documentation
+
+The API follows RESTful conventions and returns JSON responses. All endpoints support proper HTTP status codes and error handling.
+
+For detailed API documentation, you can use tools like Postman or generate documentation with gems like `rspec_api_documentation`.
 
 ## 🤝 Contributing
 
