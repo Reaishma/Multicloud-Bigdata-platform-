@@ -30,6 +30,22 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 - **Data Governance**: Quality metrics and compliance tracking
 - **CORS Support**: Cross-origin requests enabled for frontend integration
 
+## 🔄 Ruby on Rails Backend Alternative
+
+I've also created a complete **Ruby on Rails backend** as an alternative to the Laravel backend. Both backends provide identical functionality:
+
+### Rails Backend Features
+- **Complete REST API** with all endpoints
+- **Background Jobs** with Sidekiq for processing
+- **Real-time WebSocket** support via Action Cable  
+- **Redis Caching** for performance optimization
+- **PostgreSQL Database** with proper migrations
+- **CORS Configuration** for Angular frontend
+- **Comprehensive Error Handling** and validation
+- **Mock Data Generators** for testing
+- **Production-Ready Configuration**
+
+
 ## 🏗️ Architecture
 
 ### Frontend Stack
@@ -108,41 +124,33 @@ The Angular frontend will be available at: http://localhost:4200
 
 The Laravel API will be available at: http://localhost:8000
 
-## Backend (Ruby on rails)Setup
+### Quick Start - Rails Backend
 
-**Clone and navigate to the Rails backend**
+```bash
+# Navigate to Rails backend
+cd rails-backend
 
-```cd rails-backend```
+# Install dependencies
+bundle install
 
-**Install dependencies**
+# Setup environment
+cp .env.example .env
 
-```bundle install```
+# Setup database
+rails db:create db:migrate
 
-**Set up environment variables**
+# Start Redis (required)
+redis-server
 
-```cp .env.example .env```
+# Start background jobs
+bundle exec sidekiq
 
- **Edit .env with your configuration**
+# Start Rails API server
+rails server
+```
 
-**Set up the database**
+**Rails API available at: http://localhost:3000**
 
-```rails db:create```
-
-```rails db:migrate```
-
-**Start Redis (required for caching and background jobs)**
-
-```redis-server```
-
-**Start Sidekiq (for background jobs)**
-
-```bundle exec sidekiq```
-
-**Start the Rails server**
-
-```rails server```
-
-The API will be available at: http://localhost:3000
 
 ## 📁 Project Structure
 
@@ -291,47 +299,7 @@ AZURE_CLIENT_ID=your_azure_client
 - `POST /api/test-endpoint` - Test API endpoint
 
 
-## 🔄 Ruby on Rails Backend Alternative
 
-I've also created a complete **Ruby on Rails backend** as an alternative to the Laravel backend. Both backends provide identical functionality:
-
-### Rails Backend Features
-- **Complete REST API** with all endpoints
-- **Background Jobs** with Sidekiq for processing
-- **Real-time WebSocket** support via Action Cable  
-- **Redis Caching** for performance optimization
-- **PostgreSQL Database** with proper migrations
-- **CORS Configuration** for Angular frontend
-- **Comprehensive Error Handling** and validation
-- **Mock Data Generators** for testing
-- **Production-Ready Configuration**
-
-### Quick Start - Rails Backend
-
-```bash
-# Navigate to Rails backend
-cd rails-backend
-
-# Install dependencies
-bundle install
-
-# Setup environment
-cp .env.example .env
-
-# Setup database
-rails db:create db:migrate
-
-# Start Redis (required)
-redis-server
-
-# Start background jobs
-bundle exec sidekiq
-
-# Start Rails API server
-rails server
-```
-
-**Rails API available at: http://localhost:3000**
 
 ### Backend Options Summary
 
