@@ -70,40 +70,39 @@ Open the project in your preferred IDE (VS Code, WebStorm, etc.)
 
 Install dependencies:
 
-```
-npm install
-```
+
+```npm install```
+
 Start the Angular development server:
-``
-npm start
-```
+
+```npm start```
+
 The Angular frontend will be available at: http://localhost:4200
 
 ### Backend (Laravel) Setup
 
 Navigate to the backend directory:
-```
-cd backend
-```
+
+```cd backend```
+
 Install PHP dependencies:
-```
-composer install
-```
+
+```composer install```
+
 
 Set up environment:
 
-```
-cp .env.example .env
-php artisan key:generate
 
-```
+```cp .env.example .env
+php artisan key:generate```
+
+
 
 Start the Laravel API server:
 
-```
-php artisan serve
+```php artisan serve```
 
-```
+
 The Laravel API will be available at: http://localhost:8000
 
 ### Clone and navigate to the Rails backend:
