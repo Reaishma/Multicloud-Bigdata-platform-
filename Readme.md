@@ -51,6 +51,84 @@ A comprehensive Angular frontend and Laravel backend application for managing bi
 - PHP 8.1+
 - Composer
 - MySQL/PostgreSQL (optional for extended features)
+## 🚀 How to Open and Run the Application
+
+### Frontend (Angular) Setup
+Open the project in your preferred IDE (VS Code, WebStorm, etc.)
+
+Install dependencies:
+
+```
+npm install
+```
+Start the Angular development server:
+``
+npm start
+```
+The Angular frontend will be available at: http://localhost:4200
+
+Backend (Laravel) Setup
+Navigate to the backend directory:
+```
+cd backend
+```
+Install PHP dependencies:
+```
+composer install
+```
+
+Set up environment:
+
+```
+cp .env.example .env
+php artisan key:generate
+
+```
+Start the Laravel API server:
+```
+php artisan serve
+```
+The Laravel API will be available at: http://localhost:8000
+
+## 📁 Project Structure
+```
+multi-cloud-bigdata-platform/
+├── src/                          # Angular frontend
+│   ├── app/
+│   │   ├── components/          # UI components
+│   │   ├── services/           # Data services
+│   │   └── models/             # TypeScript models
+│   ├── styles.scss             # Global styles
+│   └── index.html              # Main HTML
+├── backend/                     # Laravel API
+│   ├── app/Http/Controllers/   # API controllers
+│   ├── routes/api.php          # API routes
+│   └── .env.example           # Environment config
+├── package.json               # Angular dependencies
+├── angular.json              # Angular configuration
+└── README.md                 # Documentation
+```
+
+## 🎯 Key Features Available
+Multi-Cloud Dashboard: Switch between AWS, GCP, and Azure
+Real-time Processing: Hadoop and Spark integration
+Interactive Charts: Live metrics and analytics
+Data Streaming: Real-time data flow monitoring
+Export Functionality: CSV, JSON, PDF reports
+API Testing: Built-in endpoint testing
+Responsive Design: Works on all
+
+## 🔧 Development Commands
+Frontend:
+
+```npm start``` - Start development server
+```npm run build``` - Build for production
+```npm test``` - Run tests
+Backend:
+
+```php artisan serve``` - Start API server
+```php artisan route:list``` - View all API routes
+```composer install``` - Install dependencies
 
 ## 🛠️ Installation & Setup
 
