@@ -194,7 +194,7 @@ multi-cloud-bigdata-platform/
 │   └── .env.example           # Environment config
 ├── package.json               # Angular dependencies
 ├── angular.json              # Angular configuration
-└── README.md                 # Documentation
+└── README.md, Rails backend                # Documentation, backend 
 ```
 
 ## 🎯 Key Features Available
@@ -565,7 +565,7 @@ For detailed API documentation, you can use tools like Postman or generate docum
 
 ## 🧑‍💻 Developer 
  
-**Reaishma**
+**Reaishma N**
 
 ## 🤝 Contributing
 
