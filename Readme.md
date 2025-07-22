@@ -93,6 +93,7 @@ The Laravel API will be available at: http://localhost:8000
 ## 📁 Project Structure
 
 ```
+
 multi-cloud-bigdata-platform/
 ├── src/                          # Angular frontend
 │   ├── app/
