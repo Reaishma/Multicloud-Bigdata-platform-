@@ -68,7 +68,20 @@ I've also created a complete **Ruby on Rails backend** as an alternative to the 
 - **Error Handling**: Comprehensive error responses
 - **Data Generation**: Mock data generators for testing
 
+## Covered Skills
 
+### *Cloud Platforms and Services:*
+
+1. *AWS:* EMR, S3, Redshift, Kinesis, Lambda
+2. *GCP:* Dataproc, BigQuery, Cloud Storage, Pub/Sub, Cloud Functions
+3. *Azure:* HDInsight, Data Lake, Synapse Analytics, Event Hubs, Azure Functions
+
+### **project demonstrates expertise**
+
+1. *Big Data Processing:* Hadoop, MapReduce, Apache Spark
+2. *Cloud Computing:* AWS, GCP, Azure
+3. *Data Analytics:* Real-time streaming analytics, batch processing, data visualization
+4. *Data Governance:* Data lineage, data quality, API endpoint testing
 
 
 ## 🏗️ Architecture
