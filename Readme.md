@@ -108,7 +108,9 @@ The Angular frontend will be available at: http://localhost:4200
 
 The Laravel API will be available at: http://localhost:8000
 
-### Clone and navigate to the Rails backend:
+## Backend (Ruby on rails)Setup
+
+**Clone and navigate to the Rails backend**
 
 ```cd rails-backend```
 
