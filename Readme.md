@@ -16,7 +16,7 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 - **Interactive Visualizations**: Charts and graphs using Chart.js
 - **Data Management**: Configure data sources and monitor processing jobs
 - **Analytics & Reports**: Export capabilities (CSV, JSON, PDF)
-- **Data Governance**: Quality metrics, lineage, and compliance tracking
+- **Data Governance**: Quality metrics, lineage,audit logging and compliance tracking
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices -**Background Jobs**: Sidekiq for asynchronous processing
 - **WebSocket Support**: Real-time updates via Action Cable
 - **API Testing**: Built-in endpoint testing functionality
@@ -46,6 +46,10 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 - RESTful API design
 - Cache-based job tracking
 - CORS middleware for API access
+- Ruby 3.2.0 or higher
+- PostgreSQL 12+
+- Redis 6+
+- Bundler gem
 
 ## 📋 Prerequisites
 
@@ -58,6 +62,7 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 - PHP 8.1+
 - Composer
 - MySQL/PostgreSQL (optional for extended features)
+
 ## 🚀 How to Open and Run the Application
 
 ### Frontend (Angular) Setup
@@ -74,7 +79,8 @@ npm start
 ```
 The Angular frontend will be available at: http://localhost:4200
 
-Backend (Laravel) Setup
+### Backend (Laravel) Setup
+
 Navigate to the backend directory:
 ```
 cd backend
@@ -96,6 +102,25 @@ Start the Laravel API server:
 php artisan serve
 ```
 The Laravel API will be available at: http://localhost:8000
+
+### Clone and navigate to the Rails backend:
+```cd rails-backend```
+Install dependencies:
+```bundle install```
+Set up environment variables:
+```cp .env.example .env```
+ Edit .env with your configuration
+Set up the database:
+```rails db:create
+rails db:migrate``
+Start Redis (required for caching and background jobs):
+```redis-server```
+Start Sidekiq (for background jobs):
+```bundle exec sidekiq```
+Start the Rails server:
+```rails server```
+
+The API will be available at: http://localhost:3000
 
 ## 📁 Project Structure
 
