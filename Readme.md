@@ -92,8 +92,9 @@ The Laravel API will be available at: http://localhost:8000
 
 ## 📁 Project Structure
 
-```
 
+
+```
 multi-cloud-bigdata-platform/
 ├── src/                          # Angular frontend
 │   ├── app/
@@ -108,9 +109,9 @@ multi-cloud-bigdata-platform/
 │   └── .env.example           # Environment config
 ├── package.json               # Angular dependencies
 ├── angular.json              # Angular configuration
-└── README.md                 # Documentation
+└── README.md                 # Documentation```
 
-```
+
 
 ## 🎯 Key Features Available
 Multi-Cloud Dashboard: Switch between AWS, GCP, and Azure
