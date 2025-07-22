@@ -1,4 +1,125 @@
-        }
+   import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BaseChartDirective } from 'ng2-charts';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+import { DataService } from '../../../services/data.service';
+import { CloudPlatform, ProcessingEngine, CloudService, CostAnalysis } from '../../../models/platform.model';
+import { Subscription } from 'rxjs';
+
+Chart.register(...registerables);
+
+@Component({
+  selector: 'app-overview-tab',
+  standalone: true,
+  imports: [CommonModule, BaseChartDirective],
+  template: `
+    <div class="dashboard-grid">
+      <!-- Cloud Services Status -->
+      <div class="card">
+        <h3><i class="fas fa-cloud-upload-alt"></i> Cloud Services Status</h3>
+        <div class="services-list">
+          <div *ngFor="let service of cloudServices" class="service-item">
+            <span>{{ service.name }}</span>
+            <span [class]="'text-' + service.status">
+              <i [class]="getStatusIcon(service.status)"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Processing Metrics -->
+      <div class="card">
+        <h3><i class="fas fa-chart-line"></i> Processing Metrics</h3>
+        <div class="chart-container">
+          <canvas 
+            baseChart
+            [data]="metricsChartData"
+            [options]="metricsChartOptions"
+            [type]="metricsChartType">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Cost Calculator -->
+      <div class="cost-calculator">
+        <h3><i class="fas fa-calculator"></i> Cost Analysis</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value">{{ '$' + costAnalysis.hourly }}</div>
+            <div class="metric-label">Hourly Cost</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">{{ '$' + costAnalysis.monthly.toLocaleString() }}</div>
+            <div class="metric-label">Monthly Estimate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Pipeline Flow -->
+      <div class="card">
+        <h3><i class="fas fa-project-diagram"></i> Pipeline Architecture</h3>
+        <div class="pipeline-flow">
+          <div class="pipeline-step">
+            <i class="fas fa-database"></i>
+            <div>Data Sources</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <i class="fas fa-cogs"></i>
+            <div>Processing</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <i class="fas fa-chart-bar"></i>
+            <div>Analytics</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <i class="fas fa-eye"></i>
+            <div>Visualization</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .services-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .service-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .text-success { color: #28a745; }
+    .text-warning { color: #ffc107; }
+    .text-error { color: #dc3545; }
+
+    .cost-calculator {
+      background: linear-gradient(45deg, #28a745, #20c997);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+
+      h3 {
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .metric-card {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        
+        .metric-value, .metric-limport
+          color: white;   
+
+  }
       }
     }
 
