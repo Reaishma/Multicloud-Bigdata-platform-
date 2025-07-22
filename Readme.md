@@ -325,7 +325,7 @@ bundle exec sidekiq
 rails server
 ```
 
-The API will be available at: **http://localhost:3000**
+The API will be available at: `http://localhost:3000`
 
 ## 🔧 Configuration
 
@@ -565,7 +565,7 @@ For detailed API documentation, you can use tools like Postman or generate docum
 
 ## 🧑‍💻 Developer 
  
-** Reaishma**
+**Reaishma**
 
 ## 🤝 Contributing
 
