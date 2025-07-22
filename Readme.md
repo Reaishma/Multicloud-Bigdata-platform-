@@ -131,6 +131,9 @@ Backend:
 ```php artisan route:list``` - View all API routes
 ```composer install``` - Install dependencies
 
+
+The application is now fully functional with both frontend and backend running. It can be  access the dashboard at localhost:4200 and it will communicate with the Laravel API at localhost:8000.
+
 ## 🛠️ Installation & Setup
 
 ### Frontend Setup
