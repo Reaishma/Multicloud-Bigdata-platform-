@@ -68,24 +68,7 @@ I've also created a complete **Ruby on Rails backend** as an alternative to the 
 - **Error Handling**: Comprehensive error responses
 - **Data Generation**: Mock data generators for testing
 
-## 🔧 Configuration
 
-### Environment Variables
-Key environment variables in `.env`:
-
-```bash
-DATABASE_URL=postgresql://username:password@localhost/bigdata_platform_development
-REDIS_URL=redis://localhost:6379/0
-RAILS_ENV=development
-PORT=3000
-SECRET_KEY_BASE=your_secret_key_base
-```
-
-### CORS Configuration
-CORS is configured in `config/initializers/cors.rb` to allow requests from the Angular frontend running on `localhost:4200`.
-
-### Database Configuration
-PostgreSQL is configured in `config/database.yml` with separate configurations for development, test, and production environments.
 
 
 ## 🏗️ Architecture
@@ -364,6 +347,18 @@ AWS_SECRET_ACCESS_KEY=your_aws_secret
 GOOGLE_CLOUD_PROJECT_ID=your_gcp_project
 AZURE_CLIENT_ID=your_azure_client
 ```
+### Environment Variables for Ruby on rails 
+
+Key environment variables in `.env`:
+
+```bash
+DATABASE_URL=postgresql://username:password@localhost/bigdata_platform_development
+REDIS_URL=redis://localhost:6379/0
+RAILS_ENV=development
+PORT=3000
+SECRET_KEY_BASE=your_secret_key_base
+```
+
 ### CORS Configuration
 CORS is configured in `config/initializers/cors.rb` to allow requests from the Angular frontend running on `localhost:4200`.
 
