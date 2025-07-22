@@ -68,7 +68,7 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 ### Frontend (Angular) Setup
 Open the project in your preferred IDE (VS Code, WebStorm, etc.)
 
-Install dependencies:
+**Install dependencies**:
 
 
 ```npm install```
