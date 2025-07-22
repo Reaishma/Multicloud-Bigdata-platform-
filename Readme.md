@@ -563,6 +563,10 @@ The API follows RESTful conventions and returns JSON responses. All endpoints su
 
 For detailed API documentation, you can use tools like Postman or generate documentation with gems like `rspec_api_documentation`.
 
+## 🧑‍💻 Developer 
+ 
+** Reaishma**
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -586,7 +590,7 @@ For support and questions:
 
 - **v1.0.0** - Initial release with full multi-cloud support
 - Complete Angular frontend with Material Design
-- Comprehensive Laravel API backend
+- Comprehensive Laravel API and Ruby on rails API backend
 - Real-time streaming capabilities
 - Analytics and governance features
 
