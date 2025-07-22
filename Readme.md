@@ -91,6 +91,7 @@ php artisan serve
 The Laravel API will be available at: http://localhost:8000
 
 ## 📁 Project Structure
+
 ```
 multi-cloud-bigdata-platform/
 ├── src/                          # Angular frontend
@@ -107,6 +108,7 @@ multi-cloud-bigdata-platform/
 ├── package.json               # Angular dependencies
 ├── angular.json              # Angular configuration
 └── README.md                 # Documentation
+
 ```
 
 ## 🎯 Key Features Available
