@@ -278,6 +278,8 @@ The application will be available at `http://localhost:4200`
 
 ### Backend Setup
 
+### Larvel backend 
+
 1. **Navigate to backend directory**:
 ```bash
 cd backend
@@ -300,6 +302,47 @@ php artisan serve
 ```
 
 The API will be available at `http://localhost:8000`
+
+### Ruby on rails backend 
+
+1. **Clone and navigate to the Rails backend**:
+```bash
+cd rails-backend
+```
+
+2. **Install dependencies**:
+```bash
+bundle install
+```
+
+3. **Set up environment variables**:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+4. **Set up the database**:
+```bash
+rails db:create
+rails db:migrate
+```
+
+5. **Start Redis** (required for caching and background jobs):
+```bash
+redis-server
+```
+
+6. **Start Sidekiq** (for background jobs):
+```bash
+bundle exec sidekiq
+```
+
+7. **Start the Rails server**:
+```bash
+rails server
+```
+
+The API will be available at: **http://localhost:3000**
 
 ## 🔧 Configuration
 
