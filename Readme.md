@@ -97,9 +97,12 @@ cp .env.example .env
 php artisan key:generate
 
 ```
+
 Start the Laravel API server:
+
 ```
 php artisan serve
+
 ```
 The Laravel API will be available at: http://localhost:8000
 
