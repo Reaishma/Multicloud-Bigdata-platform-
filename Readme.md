@@ -17,8 +17,7 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 - **Data Management**: Configure data sources and monitor processing jobs
 - **Analytics & Reports**: Export capabilities (CSV, JSON, PDF)
 - **Data Governance**: Quality metrics, lineage, and compliance tracking
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
- -**Background Jobs**: Sidekiq for asynchronous processing
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices -**Background Jobs**: Sidekiq for asynchronous processing
 -**WebSocket Support**: Real-time updates via Action Cable
 -**API Testing**: Built-in endpoint testing functionality
    
