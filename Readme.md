@@ -236,6 +236,63 @@ AZURE_CLIENT_ID=your_azure_client
 - `GET /api/compliance-status` - Get compliance status
 - `POST /api/test-endpoint` - Test API endpoint
 
+
+## 🔄 Ruby on Rails Backend Alternative
+
+I've also created a complete **Ruby on Rails backend** as an alternative to the Laravel backend. Both backends provide identical functionality:
+
+### Rails Backend Features
+- **Complete REST API** with all endpoints
+- **Background Jobs** with Sidekiq for processing
+- **Real-time WebSocket** support via Action Cable  
+- **Redis Caching** for performance optimization
+- **PostgreSQL Database** with proper migrations
+- **CORS Configuration** for Angular frontend
+- **Comprehensive Error Handling** and validation
+- **Mock Data Generators** for testing
+- **Production-Ready Configuration**
+
+### Quick Start - Rails Backend
+
+```bash
+# Navigate to Rails backend
+cd rails-backend
+
+# Install dependencies
+bundle install
+
+# Setup environment
+cp .env.example .env
+
+# Setup database
+rails db:create db:migrate
+
+# Start Redis (required)
+redis-server
+
+# Start background jobs
+bundle exec sidekiq
+
+# Start Rails API server
+rails server
+```
+
+**Rails API available at: http://localhost:3000**
+
+### Backend Options Summary
+
+| Feature | Laravel Backend | Rails Backend |
+|---------|----------------|---------------|
+| **Language** | PHP 8.1+ | Ruby 3.2+ |
+| **Database** | MySQL/PostgreSQL | PostgreSQL |
+| **Caching** | Redis | Redis |
+| **Background Jobs** | Laravel Queues | Sidekiq |
+| **WebSockets** | Laravel Echo | Action Cable |
+| **API Framework** | Laravel API | Rails API |
+| **Testing** | PHPUnit | RSpec |
+
+
+
 ## 🎯 Usage
 
 ### Dashboard Navigation
