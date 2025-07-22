@@ -1,6 +1,6 @@
 # Multi-Cloud Big Data Processing Platform
 
-A comprehensive Angular frontend and Laravel backend application for managing big data workflows across AWS, GCP, and Azure cloud platforms with Hadoop and Spark processing engines.
+A comprehensive Angular frontend and Laravel , Ruby on rails dual backend application for managing big data workflows across AWS, GCP, and Azure cloud platforms with Hadoop and Spark processing engines. It provides comprehensive REST API endpoints for managing cloud platforms, data processing, streaming, analytics, and governance
 
 ## 🚀 Live Demo 
 
@@ -18,7 +18,10 @@ A comprehensive Angular frontend and Laravel backend application for managing bi
 - **Analytics & Reports**: Export capabilities (CSV, JSON, PDF)
 - **Data Governance**: Quality metrics, lineage, and compliance tracking
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-
+ -**Background Jobs**: Sidekiq for asynchronous processing
+-**WebSocket Support**: Real-time updates via Action Cable
+-**API Testing**: Built-in endpoint testing functionality
+   
 ### Backend (Laravel)
 - **RESTful API**: Comprehensive endpoints for all platform operations
 - **Cloud Platform Management**: Service status and cost analysis
