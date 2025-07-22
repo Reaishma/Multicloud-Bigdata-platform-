@@ -215,25 +215,41 @@ multi-cloud-bigdata-platform/
 ```
 
 ## 🎯 Key Features Available
-Multi-Cloud Dashboard: Switch between AWS, GCP, and Azure
-Real-time Processing: Hadoop and Spark integration
-Interactive Charts: Live metrics and analytics
-Data Streaming: Real-time data flow monitoring
-Export Functionality: CSV, JSON, PDF reports
-API Testing: Built-in endpoint testing
+
+- Multi-Cloud Dashboard: Switch between AWS, GCP, and Azure
+- Real-time Processing: Hadoop and Spark integration
+- Interactive Charts: Live metrics and analytics
+- Data Streaming: Real-time data flow monitoring
+- Export Functionality: CSV, JSON, PDF reports
+- API Testing: Built-in endpoint testing
 Responsive Design: Works on all
 
 ## 🔧 Development Commands
-Frontend:
 
-```npm start``` - Start development server
-```npm run build``` - Build for production
-```npm test``` - Run tests
-Backend:
+**Frontend**
 
-```php artisan serve``` - Start API server
-```php artisan route:list``` - View all API routes
-```composer install``` - Install dependencies
+```npm start```
+
+ - **Start development server**
+
+```npm run build```
+
+ - **Build for production**
+
+```npm test``` 
+
+- **Run tests Backend**
+
+```php artisan serve``` 
+- **Start API server**
+
+```php artisan route:list``` 
+
+- **View all API routes**
+
+```composer install```
+
+ - **Install dependencies**
 
 
 The application is now fully functional with both frontend and backend running. It can be  access the dashboard at localhost:4200 and it will communicate with the Laravel API at localhost:8000.
