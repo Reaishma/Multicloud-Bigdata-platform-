@@ -1,0 +1,91 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-900">Big Data Processing Dashboard</h1>
+      <div class="flex space-x-4">
+        <button 
+          *ngFor="let tab of ['cloud-status', 'streaming', 'governance']"
+          [class.bg-blue-500]="activeTab === tab"
+          [class.text-white]="activeTab === tab"
+          [class.border]="activeTab !== tab"
+          class="px-4 py-2 rounded-md"
+          (click)="activeTab = tab"
+        >
+          {{ tab.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') }}
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+    <!-- Cloud Services Status -->
+    <div *ngIf="activeTab === 'cloud-status'">
+      <h2 class="text-xl font-semibold mb-6">Cloud Services Status Overview</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div *ngFor="let cloud of cloudServices" class="bg-white p-6 rounded-lg shadow border border-gray-200">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h3 class="text-lg font-bold">{{ cloud.provider }}</h3>
+              <p class="text-sm">
+                Status: <span [class.text-green-600]="cloud.status === 'operational'" 
+                             [class.text-yellow-600]="cloud.status !== 'operational'">
+                  {{ cloud.status }}
+                </span>
+              </p>
+            </div>
+            <span [class.text-blue-500]="cloud.provider === 'AWS'"
+                  [class.text-green-500]="cloud.provider === 'GCP'"
+                  [class.text-purple-500]="cloud.provider === 'Azure'">
+              {{ cloud.icon }}
+            </span>
+          </div>
+          <div class="space-y-2">
+            <p class="text-sm"><strong>Services:</strong> {{ cloud.services.join(', ') }}</p>
+            <p class="text-sm"><strong>Hourly Cost:</strong> {{ cloud.hourlyCost }}</p>
+            <p class="text-sm"><strong>Monthly Estimate:</strong> {{ cloud.monthlyEstimate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-time Streaming Metrics -->
+    <div *ngIf="activeTab === 'streaming'">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-semibold">Real-time Streaming Metrics</h2>
+        <button 
+          [class.bg-red-500]="isStreaming"
+          [class.bg-blue-500]="!isStreaming"
+          class="px-4 py-2 text-white rounded-md"
+          (click)="toggleStreaming()"
+        >
+          {{ isStreaming ? 'Stop Streaming' : 'Start Streaming' }}
+        </button>
+      </div>
+    </div>
+          
+    <!-- Data Governance Metrics -->
+    <div *ngIf="activeTab === 'governance'">
+      <h2 class="text-xl font-semibold mb-6">Data Governance Metrics</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+          <h3 class="text-lg font-bold mb-4">Data Quality</h3>
+          <div class="space-y-4">
+            <div *ngFor="let metric of governanceMetrics" class="flex justify-between items-center">
+              <div class="flex items-center">
+                <span class="text-blue-500 mr-2">��️</span>
+                <span>{{ metric.metric }}</span>
+              </div>
+              <div class="flex items-center">
+                <span class="font-medium mr-2">{{ metric.value }}</span>
+                <span *ngIf="metric.trend === 'up'" class="text-green-500">↑</span>
+                <span *ngIf="metric.trend === 'down'" class="text-red-500">↓</span>
+                <span *ngIf="metric.trend === 'stable'" class="text-gray-500">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
