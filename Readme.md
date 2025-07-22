@@ -370,41 +370,78 @@ CORS is configured in `config/initializers/cors.rb` to allow requests from the A
 ### Database Configuration
 PostgreSQL is configured in `config/database.yml` with separate configurations for development, test, and production environments.
 
-### API Endpoints
+## API Endpoints
 
-#### Cloud Management
+### Cloud Management
 - `GET /api/cloud-services/{platform}` - Get cloud services status
 - `GET /api/cost-analysis/{platform}` - Get cost analysis
 - `GET /api/cluster-status/{platform}/{engine}` - Get cluster status
 
-#### Data Processing
+### Data Processing
 - `GET /api/processing-metrics` - Get processing metrics
 - `POST /api/jobs/start` - Start processing job
 - `GET /api/jobs/status` - Get job status
 
-#### Data Sources
+### Data Sources
 - `GET /api/data-sources` - Get all data sources
 - `PATCH /api/data-sources/{id}` - Update data source
 - `GET /api/data-sources/{id}/sample` - Get sample data
 
-#### Streaming
+### Streaming
 - `POST /api/streaming/start` - Start streaming
 - `POST /api/streaming/stop` - Stop streaming
 - `GET /api/streaming/metrics` - Get streaming metrics
 
-#### Analytics
+### Analytics
 - `GET /api/analytics/time-series` - Get time series data
 - `GET /api/analytics/distribution` - Get data distribution
 - `GET /api/analytics/comparison` - Get platform comparison
 - `GET /api/export/{format}` - Export data (csv, json, pdf)
 
-#### Governance
+### Governance
 - `GET /api/data-quality` - Get data quality metrics
 - `GET /api/data-lineage` - Get data lineage
 - `GET /api/compliance-status` - Get compliance status
 - `POST /api/test-endpoint` - Test API endpoint
 
-## Refer Rails backend.md for complete details (https://github.com/Reaishma/Multicloud-Bigdata-platform-/blob/main/Readme_Rails.md)
+## 📚  Ruby on rails API Endpoints
+
+### Cloud Management
+- `GET /api/v1/clouds` - List available cloud platforms
+- `GET /api/v1/clouds/services` - Get cloud services status
+- `POST /api/v1/clouds/switch` - Switch cloud platform
+- `GET /api/v1/clouds/cost_analysis` - Get cost analysis
+
+### Data Processing
+- `POST /api/v1/processing/start_job` - Start processing job
+- `GET /api/v1/processing/job_status` - Get job status
+- `GET /api/v1/processing/metrics` - Get processing metrics
+- `GET /api/v1/processing/recommendations` - Get optimization recommendations
+
+### Data Management
+- `GET /api/v1/data` - List data with pagination
+- `POST /api/v1/data` - Create/generate data
+- `GET /api/v1/data/sources` - Get data sources
+- `GET /api/v1/data/export` - Export data (CSV/JSON)
+- `GET /api/v1/data/lineage` - Get data lineage
+
+### Streaming
+- `POST /api/v1/streaming/start` - Start data streaming
+- `POST /api/v1/streaming/stop` - Stop data streaming
+- `GET /api/v1/streaming/status` - Get streaming status
+- `GET /api/v1/streaming/metrics` - Get streaming metrics
+
+### Analytics
+- `GET /api/v1/analytics/charts` - Get chart data
+- `GET /api/v1/analytics/time_series` - Get time series data
+- `GET /api/v1/analytics/comparison` - Get platform comparison
+- `POST /api/v1/analytics/export` - Export analytics reports
+
+### Governance
+- `GET /api/v1/governance/quality_metrics` - Get data quality metrics
+- `POST /api/v1/governance/test_api` - Test API endpoints
+- `GET /api/v1/governance/compliance` - Get compliance status
+- `GET /api/v1/governance/audit_logs` - Get audit logs
 
 
 
