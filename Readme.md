@@ -4,7 +4,7 @@ A comprehensive Angular frontend and Laravel , Ruby on rails dual backend applic
 
 ## 🚀 Live Demo 
 
-[View live demo](https://reaishma.github.io/Multicloud-Bigdata-platform-/)
+**View live demo on** https://reaishma.github.io/Multicloud-Bigdata-platform-/
 
 
 ## 🚀 Features
