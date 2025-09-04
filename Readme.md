@@ -471,6 +471,8 @@ PostgreSQL is configured in `config/database.yml` with separate configurations f
 
 ## 🎯 Usage
 
+![data processing](https://github.com/Reaishma/Multicloud-Bigdata-platform-/blob/main/Screenshot_20250903-194323_1.jpg)
+
 ### Dashboard Navigation
 1. **Overview Tab**: View cloud services status, processing metrics, and cost analysis
 2. **Data Processing Tab**: Configure data sources and start processing jobs
