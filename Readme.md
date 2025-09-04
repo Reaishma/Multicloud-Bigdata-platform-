@@ -2,6 +2,8 @@
 
 A comprehensive Angular frontend and Laravel , Ruby on rails dual backend application for managing big data workflows across AWS, GCP, and Azure cloud platforms with Hadoop and Spark processing engines. It provides comprehensive REST API endpoints for managing cloud platforms, data processing, streaming, analytics, and governance
 
+![Real-time data](https://github.com/Reaishma/Multicloud-Bigdata-platform-/blob/main/Screenshot_20250903-194212_1.jpg)
+
 ## 🚀 Live Demo 
 
 **View live demo on** https://reaishma.github.io/Multicloud-Bigdata-platform-/
