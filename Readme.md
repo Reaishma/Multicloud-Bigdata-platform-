@@ -600,8 +600,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For support and questions:
 - Create an issue in the GitHub repository
-- Check the documentation in the `/docs` folder
-- Review API endpoint documentation in the code comments
+
 
 ## 🔄 Version History
 
