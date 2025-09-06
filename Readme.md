@@ -578,7 +578,7 @@ This Rails API is designed to work seamlessly with the Angular frontend. The API
 
 The API follows RESTful conventions and returns JSON responses. All endpoints support proper HTTP status codes and error handling.
 
-For detailed API documentation, you can use tools like Postman or generate documentation with gems like `rspec_api_documentation`.
+For detailed API documentation, you can use tools like Postman 
 
 ## 🧑‍💻 Developer 
  
